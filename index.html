@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="css/styles1.css">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="container">
@@ -35,9 +35,11 @@
 
             if (userData) {
                 if (userData.username === username && userData.password === password) {
-                    alert("Login successful! Welcome, " + userData.role);
-                    // Redirect to main page or dashboard
-                    window.location.href = "mainpage.html"; // Change to your main page
+                    alert("Login successful! Welcome, " + userData.username);
+                    // Store user info in session storage for use in mainpage.html
+                    session Storage.setItem('loggedInUser ', JSON.stringify(userData));
+                    // Redirect to main page
+                    window.location.href = "mainpage.html"; 
                 } else {
                     alert("Invalid username or password.");
                 }
