@@ -7,7 +7,7 @@ function register() {
 function login() {
     alert("Redirecting to the login page...");
     // Here you can redirect to the login page
-    window.location.href = "login.html";
+    window.location.href = "index.html";
 }
 
 function logout() {
