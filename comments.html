@@ -460,6 +460,8 @@
         let score = 0;
         let currentQuiz = [];
 
+        const commentsStorage = {};
+
         function getArticleId() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('article');
@@ -525,9 +527,50 @@
             setTimeout(displayQuestion, 2000); // Wait 2 seconds before showing the next question
         }
 
+       // Comments functionality
+       function addComment() {
+            const articleId = getArticleId();
+            const commentInput = document.getElementById('comment');
+            const commentText = commentInput.value.trim();
+            const loggedInUser  = JSON.parse(sessionStorage.getItem('loggedInUser '));
+
+            if (commentText && loggedInUser ) {
+                const username = loggedInUser .username; // Get the username from session storage
+                const comments = getCommentsFromStorage(articleId) || []; // Get existing comments
+                comments.push({ username, text: commentText }); // Add comment with username
+                saveCommentsToStorage(articleId, comments); // Save updated comments
+                commentInput.value = ''; // Clear the input
+                displayComments(articleId); // Refresh comments display
+            } else {
+                alert("You must be logged in to comment.");
+            }
+        }
+
+        function displayComments(articleId) {
+            const commentsArea = document.getElementById('commentsArea');
+            commentsArea.innerHTML = ''; // Clear existing comments
+            const comments = getCommentsFromStorage(articleId) || []; // Get comments for the current article
+            comments.forEach(comment => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment';
+                commentDiv.innerText = `${comment.username}: ${comment.text}`; // Display username with comment
+                commentsArea.appendChild(commentDiv);
+            });
+        }
+
+        function getCommentsFromStorage(articleId) {
+            const comments = localStorage.getItem(`comments_${articleId}`);
+            return comments ? JSON.parse(comments) : null;
+        }
+
+        function saveCommentsToStorage(articleId, comments) {
+            localStorage.setItem(`comments_${articleId}`, JSON.stringify(comments));
+        }
+
 
         // Initial calls to display article details
         displayArticleDetails();
+        
 
         const loggedInUser  = JSON.parse(sessionStorage.getItem('loggedInUser '));
         if (loggedInUser ) {
