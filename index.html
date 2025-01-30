@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h2>Login</h2>
-        <form id="loginForm" action="mainpage.html" method="GET">
+        <form id="loginForm" onsubmit="loginUser (event)">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
@@ -22,5 +22,29 @@
         </form>
         <p>Don't have an account? <a href="register.html">Register here</a></p>
     </div>
+
+    <script>
+        function loginUser (event) {
+            event.preventDefault(); // Prevent form submission
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Retrieve user data from local storage
+            const userData = JSON.parse(localStorage.getItem('userData'));
+
+            if (userData) {
+                if (userData.username === username && userData.password === password) {
+                    alert("Login successful! Welcome, " + userData.role);
+                    // Redirect to main page or dashboard
+                    window.location.href = "mainpage.html"; // Change to your main page
+                } else {
+                    alert("Invalid username or password.");
+                }
+            } else {
+                alert("No user found. Please register first.");
+            }
+        }
+    </script>
 </body>
 </html>
