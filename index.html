@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css1/styles.css">
 </head>
 <body>
     <div class="container">
@@ -37,7 +37,7 @@
                 if (userData.username === username && userData.password === password) {
                     alert("Login successful! Welcome, " + userData.username);
                     // Store user info in session storage for use in mainpage.html
-                    session Storage.setItem('loggedInUser ', JSON.stringify(userData));
+                    sessionStorage.setItem('loggedInUser ', JSON.stringify(userData));
                     // Redirect to main page
                     window.location.href = "mainpage.html"; 
                 } else {
