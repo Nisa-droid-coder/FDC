@@ -33,6 +33,8 @@
                 </div>
                 <button class="dropbtn">User   Actions</button>
                 <div class="dropdown-content">
+                    <a href="register.html"><button>Register</button></a>
+                    <a href="index.html"><button>Login</button></a>
                     <a href="index.html"><button onclick="logout()">Logout</button></a>
                 </div>
             </div>
@@ -49,11 +51,12 @@
         <section id="article-details">
             <h2>Article Details</h2>
             <div id="articleInfo"></div>
+            <div id="articleSummary"></div>
         </section>
     </main>
     <main>
         <section id="media-section">
-            <h2>Article Reviews</h2>
+            <h2>Media</h2>
             <div id="mediaContent"></div>
         </section>
     </main>
@@ -81,14 +84,15 @@
     <script>
         const articles = [
             {
-                title: "Navigating the Digital Landscape: The Importance of Digital Literacy in the 21st Century",
+                title: "Understanding Digital Literacy",
                 content: "This article discusses the importance of digital literacy in today's world.",
-                summary: "Digital literacy is essential for success in the modern world, enabling individuals to navigate information and technology effectively.",
+                summary:"Digital literacy has become a fundamental skill set that is essential for personal and professional success in the fast-paced, technology-driven world of today. Digital literacy is the capacity to critically evaluate, create, and effectively navigate information using a variety of digital technologies. It encompasses more than just a basic comprehension of software and devices; it also entails the ability to engage with digital content responsibly, differentiate between credible sources and misinformation, and utilise a variety of platforms for communication and collaboration. The consequences of inadequate digital literacy become more apparent as society becomes more dependent on digital tools for education, employment, and social interaction. Digitally literate individuals can leverage the internet's capabilities to access a plethora of information, engage in online communities, and cultivate the skills that are essential in the contemporary job market. Furthermore, digital literacy cultivates critical thinking and problem-solving skills, thereby allowing individuals to comprehend digital privacy concerns, analyse data, and navigate the intricacies of online interactivity. The promotion of digital literacy is not merely an educational necessity in an era where technology is constantly evolving; it is a societal necessity that enables individuals to thrive in an interconnected world, ensuring that they can contribute meaningfully to their communities and adapt to the challenges of the digital age.",
                 link: "pdf/pdf1.pdf",
                 publishDate: "2020-01-15",
                 status: "Published",
                 views: 150,
                 id: 1,
+                media: "pics/pic1.png", // Media for article 1
                 quiz: [
                     {
                         question: "What is digital literacy?",
@@ -454,7 +458,7 @@
             }
         ];
 
-                let currentQuestionIndex = 0;
+        let currentQuestionIndex = 0;
         let score = 0;
         let currentQuiz = [];
 
@@ -479,15 +483,16 @@
                     <p><strong>Views:</strong> ${article.views}</p>
                     <a href="${article.link}">Read More</a>
                 `;
-                displayMedia(article.summary); // Pass the summary instead of media
+                articleSummary.innerHTML = `<p><strong>Summary:</strong> ${article.summary}</p>`;
+                displayMedia(article.media);
             } else {
                 articleInfo.innerHTML = `<p>Article not found.</p>`;
             }
         }
 
-        function displayMedia(summary) {
+        function displayMedia(media) {
             const mediaContent = document.getElementById('mediaContent');
-            mediaContent.innerHTML = `<p>${summary}</p>`; // Display the summary instead of an image
+            mediaContent.innerHTML = `<img src="${media}" alt="Media for article" />`;
         }
 
         function startQuiz() {
@@ -525,8 +530,8 @@
             setTimeout(displayQuestion, 2000); // Wait 2 seconds before showing the next question
         }
 
-        // Comments functionality
-        function addComment() {
+       // Comments functionality
+       function addComment() {
             const articleId = getArticleId();
             const commentInput = document.getElementById('comment');
             const commentText = commentInput.value.trim();
@@ -565,8 +570,10 @@
             localStorage.setItem(`comments_${articleId}`, JSON.stringify(comments));
         }
 
+
         // Initial calls to display article details
         displayArticleDetails();
+        
 
         const loggedInUser  = JSON.parse(sessionStorage.getItem('loggedInUser '));
         if (loggedInUser ) {
